@@ -1,6 +1,7 @@
 package com.bybit.api.client.websocket.impl;
 
 import com.bybit.api.client.constant.BybitApiConstants;
+import com.bybit.api.client.websocket.callback.WebSocketFailureCallback;
 import com.bybit.api.client.websocket.callback.WebSocketMessageCallback;
 import com.bybit.api.client.websocket.httpclient.WebSocketStreamHttpClientSingleton;
 import com.bybit.api.client.websocket.httpclient.WebsocketStreamClient;
@@ -33,6 +34,10 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private WebSocketMessageCallback webSocketMessageCallback;
+    private final WebSocketFailureCallback webSocketFailureCallback;
+
+    private final WebSocketFailureCallback noopFailureCallback = (throwable, message) -> { };
+
     private final WebSocketStreamHttpClientSingleton webSocketHttpClientSingleton;
     private WebSocket webSocket;
     private boolean isAuthenticated = false;
@@ -51,6 +56,20 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
 
     public WebsocketStreamClientImpl(String apikey, String secret, String baseUrl, Integer pingInterval, String maxAliveTime, Boolean debugMode, String logOption, WebSocketMessageCallback webSocketMessageCallback) {
         this.webSocketMessageCallback = webSocketMessageCallback;
+        this.webSocketFailureCallback = noopFailureCallback;
+        this.apikey = apikey;
+        this.secret = secret;
+        this.baseUrl = baseUrl;
+        this.pingInterval = pingInterval;
+        this.debugMode = debugMode;
+        this.logOption = logOption;
+        this.maxAliveTime = maxAliveTime;
+        webSocketHttpClientSingleton = WebSocketStreamHttpClientSingleton.createInstance(this.debugMode, this.logOption);
+    }
+
+    public WebsocketStreamClientImpl(String apikey, String secret, String baseUrl, Integer pingInterval, String maxAliveTime, Boolean debugMode, String logOption, WebSocketMessageCallback webSocketMessageCallback, WebSocketFailureCallback webSocketFailureCallback) {
+        this.webSocketMessageCallback = webSocketMessageCallback;
+        this.webSocketFailureCallback = webSocketFailureCallback;
         this.apikey = apikey;
         this.secret = secret;
         this.baseUrl = baseUrl;
@@ -228,7 +247,7 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
 
             @Override
             public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
-                WebsocketStreamClientImpl.this.onError(t);
+                WebsocketStreamClientImpl.this.onError(t, response);
             }
 
             @Override
@@ -236,7 +255,7 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
                 try {
                     WebsocketStreamClientImpl.this.onMessage(text);
                 } catch (Exception e) {
-                    WebsocketStreamClientImpl.this.onError(e);
+                    WebsocketStreamClientImpl.this.onError(e, null);
                 }
             }
 
@@ -281,8 +300,9 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
     }
 
     @Override
-    public void onError(Throwable t) {
-        LOGGER.error(t.getMessage());
+    public void onError(Throwable t, Response r) {
+        LOGGER.error("WebSocket error {} happened to stream {}", t, argNames);
+        webSocketFailureCallback.onFailure(t, r);
     }
 
     @Override
