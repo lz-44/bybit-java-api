@@ -6,9 +6,9 @@
 
     <groupId>io.github.wuhewuhe</groupId>
     <artifactId>bybit-java-api</artifactId>
-    <version>1.2.8-SNAPSHOT</version>
+    <version>1.2.9-SNAPSHOT</version>
     <name>bybit-java-api</name>
-    <url>https://github.com/VictorFrWu/bybit-java-api</url>
+    <url>https://github.com/lz-44/bybit-java-api.git</url>
 
     <licenses>
         <license>
@@ -44,11 +44,6 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git://github.com/VictorFrWu/bybit-java-api.git</connection>
-        <developerConnection>scm:git:ssh://github.com/VictorFrWu/bybit-java-api.git</developerConnection>
-        <url>https://github.com/VictorFrWu/bybit-java-api</url>
-    </scm>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
