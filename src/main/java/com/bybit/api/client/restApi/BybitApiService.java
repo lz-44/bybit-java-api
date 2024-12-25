@@ -634,7 +634,8 @@ public interface BybitApiService {
      */
     @GET("/v5/market/risk-limit")
     Call<Object> getRiskLimit(@Query("category") String category,
-                              @Query("symbol") String symbol);
+                              @Query("symbol") String symbol,
+                              @Query("cursor") String cursor);
 
     /**
      * Get Delivery Price

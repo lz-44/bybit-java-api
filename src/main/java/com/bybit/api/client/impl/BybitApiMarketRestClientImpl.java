@@ -171,7 +171,8 @@ public class BybitApiMarketRestClientImpl implements BybitApiMarketRestClient {
     public Object getRiskLimit(MarketDataRequest marketRiskLimitRequest) {
         return executeSync(bybitApiService.getRiskLimit(
                 marketRiskLimitRequest.getCategory().getCategoryTypeId(),
-                marketRiskLimitRequest.getSymbol()));
+                marketRiskLimitRequest.getSymbol(),
+                marketRiskLimitRequest.getCursor()));
     }
 
     @Override
