@@ -10,6 +10,7 @@ public enum AccountType {
     OPTION("OPTION"),
     UNIFIED("UNIFIED"),
     FUND("FUND"),
+    UTA("UTA"),
 
     // Convert
     CONVERT_UTA("eb_convert_uta"),
