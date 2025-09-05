@@ -6,9 +6,9 @@
 
     <groupId>io.github.wuhewuhe</groupId>
     <artifactId>bybit-java-api</artifactId>
-    <version>1.2.8-SNAPSHOT</version>
+    <version>1.2.8-ma</version>
     <name>bybit-java-api</name>
-    <url>https://github.com/VictorFrWu/bybit-java-api</url>
+    <url>https://github.com/ma-traders/bybit-java-api.git</url>
 
     <licenses>
         <license>
@@ -44,11 +44,6 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git://github.com/VictorFrWu/bybit-java-api.git</connection>
-        <developerConnection>scm:git:ssh://github.com/VictorFrWu/bybit-java-api.git</developerConnection>
-        <url>https://github.com/VictorFrWu/bybit-java-api</url>
-    </scm>
 
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
@@ -119,7 +114,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -153,22 +148,11 @@
     </dependencies>
 
     <distributionManagement>
-        <!--
-                                <repository>
-                                <id>github</id>
-                                <name>GitHub Packages Repository</name>
-                                <url>https://maven.pkg.github.com/VictorFrWu/bybit-java-api</url>
-                            </repository>
-          -->
-                           <snapshotRepository>
-                               <id>ossrh</id>
-                               <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-                               </snapshotRepository>
-                           <repository>
-                               <id>ossrh</id>
-                               <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                           </repository>
-
+        <repository>
+            <id>github-ma-packages</id>
+            <name>GitHub Packages (ma-traders/packages-repo)</name>
+            <url>https://maven.pkg.github.com/ma-traders/packages-repo</url>
+        </repository>
     </distributionManagement>
 
     <build>
@@ -197,19 +181,6 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.2</version>
                 <configuration>
-                </configuration>
-            </plugin>
-
-            <!-- Nexus Repository Manager -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
 
@@ -246,21 +217,21 @@
                 </configuration>
             </plugin>
 
-            <!-- GPG Signed Components -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            &lt;!&ndash; GPG Signed Components &ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                <version>1.5</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>sign-artifacts</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>sign</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
         </plugins>
     </build>

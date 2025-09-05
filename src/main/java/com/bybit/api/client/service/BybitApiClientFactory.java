@@ -4,6 +4,7 @@ package com.bybit.api.client.service;
 import com.bybit.api.client.impl.*;
 import com.bybit.api.client.log.LogOption;
 import com.bybit.api.client.restApi.*;
+import com.bybit.api.client.websocket.callback.WebSocketFailureCallback;
 import com.bybit.api.client.websocket.httpclient.WebsocketStreamClient;
 import com.bybit.api.client.websocket.impl.WebsocketStreamClientImpl;
 import com.bybit.api.client.websocket.callback.WebSocketMessageCallback;
@@ -387,6 +388,10 @@ public class BybitApiClientFactory {
 
     public WebsocketStreamClient newWebsocketClient(WebSocketMessageCallback messageHandler) {
         return new WebsocketStreamClientImpl(apiKey, secret, baseUrl, DEFAULT_PING_INTERVAL, DEFAULT_MAX_ALIVE_TIME, debugMode, logOption, messageHandler);
+    }
+
+    public WebsocketStreamClient newWebsocketClient(WebSocketMessageCallback messageHandler, WebSocketFailureCallback failureCallback) {
+        return new WebsocketStreamClientImpl(apiKey, secret, baseUrl, DEFAULT_PING_INTERVAL, DEFAULT_MAX_ALIVE_TIME, debugMode, logOption, messageHandler, failureCallback);
     }
 
     public WebsocketStreamClient newWebsocketClient(int pingInterval, WebSocketMessageCallback messageHandler) {

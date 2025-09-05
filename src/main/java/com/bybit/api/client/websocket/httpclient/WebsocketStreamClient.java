@@ -2,6 +2,7 @@ package com.bybit.api.client.websocket.httpclient;
 
 import com.bybit.api.client.websocket.callback.WebSocketMessageCallback;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import okhttp3.Response;
 import okhttp3.WebSocket;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public interface WebsocketStreamClient {
     void onMessage(String msg) throws JsonProcessingException;
-    void onError(Throwable t);
+    void onError(Throwable t, Response r);
     void onClose(WebSocket ws, int code, String reason);
     void onOpen(WebSocket ws);
     WebSocket connect();

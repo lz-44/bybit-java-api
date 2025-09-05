@@ -154,7 +154,8 @@ public class BybitApiMarketAsyncRestClientImpl implements BybitApiAsyncMarketDat
     public void getRiskLimit(MarketDataRequest marketRiskLimitRequest, BybitApiCallback<Object> callback) {
         bybitApiService.getRiskLimit(
                         marketRiskLimitRequest.getCategory().getCategoryTypeId(),
-                        marketRiskLimitRequest.getSymbol()
+                        marketRiskLimitRequest.getSymbol(),
+                        marketRiskLimitRequest.getCursor()
                 ).
                 enqueue(new BybitApiCallbackAdapter<>(callback));
     }
