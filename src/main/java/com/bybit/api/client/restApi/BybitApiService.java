@@ -3317,7 +3317,7 @@ public interface BybitApiService {
      * &gt; availableBalance	string	Available balance
      */
     @Headers(BybitApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/account/transferable-amount")
+    @GET("/v5/account/query-transferable-amount")
     Call<Object> getTransferableAmount(@Query("accountType") String accountType,
                                        @Query("coin") String coin);
 
