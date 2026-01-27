@@ -38,7 +38,7 @@ public class AccountExample {
         System.out.println(transactionLogData);
 
         // Get Transferable Amount
-        var transferableAmountRequest = AccountDataRequest.builder().accountType(AccountType.UNIFIED).coin("USDT").build();
+        var transferableAmountRequest = AccountDataRequest.builder().coin("USDT").build();
         var transferableAmount = client.getTransferableAmount(transferableAmountRequest);
         System.out.println(transferableAmount);
 

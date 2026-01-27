@@ -1,13 +1,11 @@
 package com.bybit.api.examples.http.helper;
 
 import com.bybit.api.client.config.BybitApiConfig;
-import com.bybit.api.client.domain.account.AccountType;
 import com.bybit.api.client.domain.account.request.AccountDataRequest;
 import com.bybit.api.client.service.BybitApiClientFactory;
 import com.bybit.api.examples.http.dto.TransferableBalanceDto;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 @Slf4j
@@ -30,7 +28,6 @@ public class TransferableAmountHelper {
         log.info("Retrieving transferable amount for coin: {}", coin);
         
         AccountDataRequest request = AccountDataRequest.builder()
-                .accountType(AccountType.UNIFIED)
                 .coin(coin)
                 .build();
         
@@ -42,36 +39,23 @@ public class TransferableAmountHelper {
             throw new RuntimeException("No 'time' field in response");
         }
         
-        // Extract the list from the response
+        // Extract the result from the response
         LinkedHashMap<String, Object> result = (LinkedHashMap<String, Object>) transferableAmountMap.get("result");
         if (result == null) {
             throw new RuntimeException("No 'result' object in response");
         }
         
-        ArrayList<LinkedHashMap<String, Object>> list = (ArrayList<LinkedHashMap<String, Object>>) result.get("list");
-        if (list == null || list.isEmpty()) {
-            throw new RuntimeException("No information in 'list' object");
-        }
-        
-        // Get the first item from the list (should only be one for a specific coin query)
-        LinkedHashMap<String, Object> data = list.get(0);
-        String coinSymbol = (String) data.get("coin");
-        
-        if (coinSymbol == null || !coinSymbol.equals(coin)) {
-            throw new RuntimeException("Coin mismatch: expected " + coin + " but got " + coinSymbol);
-        }
-        
-        // Parse the transferable amount (it comes as a string from the API)
-        String transferableAmountStr = (String) data.get("transferableAmount");
-        if (transferableAmountStr == null || transferableAmountStr.isEmpty()) {
-            throw new RuntimeException("No transferableAmount field in response for coin: " + coin);
+        // Get availableWithdrawal (for the first coin in the request)
+        String availableWithdrawalStr = (String) result.get("availableWithdrawal");
+        if (availableWithdrawalStr == null || availableWithdrawalStr.isEmpty()) {
+            throw new RuntimeException("No availableWithdrawal field in response for coin: " + coin);
         }
         
         Double transferableAmount;
         try {
-            transferableAmount = Double.parseDouble(transferableAmountStr);
+            transferableAmount = Double.parseDouble(availableWithdrawalStr);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Invalid transferableAmount value: " + transferableAmountStr, e);
+            throw new RuntimeException("Invalid availableWithdrawal value: " + availableWithdrawalStr, e);
         }
         
         log.info("Transferable amount for {}: {}", coin, transferableAmount);

@@ -146,8 +146,7 @@ public class BybitApiAccountRestClientImpl implements BybitApiAccountRestClient 
     @Override
     public Object getTransferableAmount(AccountDataRequest request) {
         return executeSync(bybitApiService.getTransferableAmount(
-                request.getAccountType() == null ? null : request.getAccountType().getAccountTypeValue(),
-                request.getCoin()
+                request.getCoins() != null ? request.getCoins() : request.getCoin()
         ));
     }
 }

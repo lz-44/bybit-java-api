@@ -3301,25 +3301,25 @@ public interface BybitApiService {
     Call<Object> getAccountSMPGroupId();
 
     /**
-     * Get Transferable Amount
-     * Get the transferable amount for a specific coin in a specific account type.
+     * Get Transferable Amount (Unified)
+     * Query the available amount to transfer of a specific coin in the Unified wallet.
+     * <p>
+     * Formula of Asset Available Balance for withdraw:
+     * Reverse calculate Asset Available Amount = X, using totalAvailableBalance in Get Wallet Balance and the asset's tiered collateral ratio
+     * Asset Available Balance for withdraw = min(X, asset spot Available balance - spot hedging qty for portfolio margin mode)
      * <p>
      * https://bybit-exchange.github.io/docs/v5/account/unified-trans-amnt
      *
-     * @param accountType true	string	Account type. UNIFIED, CONTRACT, SPOT
-     * @param coin        true	string	Coin name, such as BTC, ETH, USDT, USDC
+     * @param coinName true	string	Coin name, uppercase only. Supports up to 20 coins per request, use comma to separate. BTC,USDC,USDT,SOL
      * @return Response Parameters
      * Parameter	Type	Comments
-     * list	array	Object
-     * &gt; coin	string	Coin name
-     * &gt; transferableAmount	string	Transferable amount
-     * &gt; walletBalance	string	Wallet balance
-     * &gt; availableBalance	string	Available balance
+     * availableWithdrawal	string	Transferable amount for the 1st coin in the request
+     * availableWithdrawalMap	Object	Transferable amount map for each requested coin. In the map, key is the requested coin, and value is the accordingly amount(string)
+     * e.g., "availableWithdrawalMap":{"BTC":"4.54549050","SOL":"33.16713007","XRP":"10805.54548970","ETH":"17.76451865"}
      */
     @Headers(BybitApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/account/query-transferable-amount")
-    Call<Object> getTransferableAmount(@Query("accountType") String accountType,
-                                       @Query("coin") String coin);
+    @GET("/v5/account/withdrawal")
+    Call<Object> getTransferableAmount(@Query("coinName") String coinName);
 
     // Asset Endpoints
 

@@ -145,8 +145,7 @@ public class BybitApiAsyncAccountRestClientImpl implements BybitApiAsyncAccountR
     @Override
     public void getTransferableAmount(AccountDataRequest request, BybitApiCallback<Object> callback) {
         bybitApiService.getTransferableAmount(
-                request.getAccountType() == null ? null : request.getAccountType().getAccountTypeValue(),
-                request.getCoin()
+                request.getCoins() != null ? request.getCoins() : request.getCoin()
         ).enqueue(new BybitApiCallbackAdapter<>(callback));
     }
 }
