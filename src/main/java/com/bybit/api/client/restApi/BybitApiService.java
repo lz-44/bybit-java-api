@@ -3300,6 +3300,27 @@ public interface BybitApiService {
     @GET("/v5/account/smp-group")
     Call<Object> getAccountSMPGroupId();
 
+    /**
+     * Get Transferable Amount
+     * Get the transferable amount for a specific coin in a specific account type.
+     * <p>
+     * https://bybit-exchange.github.io/docs/v5/account/unified-trans-amnt
+     *
+     * @param accountType true	string	Account type. UNIFIED, CONTRACT, SPOT
+     * @param coin        true	string	Coin name, such as BTC, ETH, USDT, USDC
+     * @return Response Parameters
+     * Parameter	Type	Comments
+     * list	array	Object
+     * &gt; coin	string	Coin name
+     * &gt; transferableAmount	string	Transferable amount
+     * &gt; walletBalance	string	Wallet balance
+     * &gt; availableBalance	string	Available balance
+     */
+    @Headers(BybitApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/account/transferable-amount")
+    Call<Object> getTransferableAmount(@Query("accountType") String accountType,
+                                       @Query("coin") String coin);
+
     // Asset Endpoints
 
     /**

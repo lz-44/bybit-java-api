@@ -141,4 +141,12 @@ public class BybitApiAsyncAccountRestClientImpl implements BybitApiAsyncAccountR
         var setSpotHedging = converter.mapToSetSpotHedgingModeRequest(request);
         bybitApiService.setAccountSpotHedging(setSpotHedging).enqueue(new BybitApiCallbackAdapter<>(callback));
     }
+
+    @Override
+    public void getTransferableAmount(AccountDataRequest request, BybitApiCallback<Object> callback) {
+        bybitApiService.getTransferableAmount(
+                request.getAccountType() == null ? null : request.getAccountType().getAccountTypeValue(),
+                request.getCoin()
+        ).enqueue(new BybitApiCallbackAdapter<>(callback));
+    }
 }
