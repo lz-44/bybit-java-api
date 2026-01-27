@@ -38,6 +38,9 @@ public class TransferableAmountHelper {
             (LinkedHashMap<String, Object>) httpFactory.newAccountRestClient().getTransferableAmount(request);
         
         Long time = (Long) transferableAmountMap.get("time");
+        if (time == null) {
+            throw new RuntimeException("No 'time' field in response");
+        }
         
         // Extract the list from the response
         LinkedHashMap<String, Object> result = (LinkedHashMap<String, Object>) transferableAmountMap.get("result");
@@ -54,13 +57,22 @@ public class TransferableAmountHelper {
         LinkedHashMap<String, Object> data = list.get(0);
         String coinSymbol = (String) data.get("coin");
         
-        if (!coinSymbol.equals(coin)) {
+        if (coinSymbol == null || !coinSymbol.equals(coin)) {
             throw new RuntimeException("Coin mismatch: expected " + coin + " but got " + coinSymbol);
         }
         
         // Parse the transferable amount (it comes as a string from the API)
         String transferableAmountStr = (String) data.get("transferableAmount");
-        Double transferableAmount = Double.parseDouble(transferableAmountStr);
+        if (transferableAmountStr == null || transferableAmountStr.isEmpty()) {
+            throw new RuntimeException("No transferableAmount field in response for coin: " + coin);
+        }
+        
+        Double transferableAmount;
+        try {
+            transferableAmount = Double.parseDouble(transferableAmountStr);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid transferableAmount value: " + transferableAmountStr, e);
+        }
         
         log.info("Transferable amount for {}: {}", coin, transferableAmount);
         
