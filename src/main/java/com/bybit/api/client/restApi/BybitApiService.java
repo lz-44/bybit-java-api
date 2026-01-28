@@ -3304,9 +3304,9 @@ public interface BybitApiService {
      * Get Transferable Amount (Unified)
      * Query the available amount to transfer of a specific coin in the Unified wallet.
      * <p>
-     * Formula of Asset Available Balance for withdraw:
+     * Formula of Asset Available Balance for withdrawal:
      * Reverse calculate Asset Available Amount = X, using totalAvailableBalance in Get Wallet Balance and the asset's tiered collateral ratio
-     * Asset Available Balance for withdraw = min(X, asset spot Available balance - spot hedging qty for portfolio margin mode)
+     * Asset Available Balance for withdrawal = min(X, asset spot Available balance - spot hedging qty for portfolio margin mode)
      * <p>
      * https://bybit-exchange.github.io/docs/v5/account/unified-trans-amnt
      *
