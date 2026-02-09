@@ -142,4 +142,11 @@ public class BybitApiAccountRestClientImpl implements BybitApiAccountRestClient 
     public Object getAccountSMPGroup() {
         return executeSync(bybitApiService.getAccountSMPGroupId());
     }
+
+    @Override
+    public Object getTransferableAmount(AccountDataRequest request) {
+        return executeSync(bybitApiService.getTransferableAmount(
+                request.getCoins() != null ? request.getCoins() : request.getCoin()
+        ));
+    }
 }

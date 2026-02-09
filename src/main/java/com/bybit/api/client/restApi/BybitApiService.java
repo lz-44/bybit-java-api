@@ -3300,6 +3300,27 @@ public interface BybitApiService {
     @GET("/v5/account/smp-group")
     Call<Object> getAccountSMPGroupId();
 
+    /**
+     * Get Transferable Amount (Unified)
+     * Query the available amount to transfer of a specific coin in the Unified wallet.
+     * <p>
+     * Formula of Asset Available Balance for withdrawal:
+     * Reverse calculate Asset Available Amount = X, using totalAvailableBalance in Get Wallet Balance and the asset's tiered collateral ratio
+     * Asset Available Balance for withdrawal = min(X, asset spot Available balance - spot hedging qty for portfolio margin mode)
+     * <p>
+     * https://bybit-exchange.github.io/docs/v5/account/unified-trans-amnt
+     *
+     * @param coinName true	string	Coin name, uppercase only. Supports up to 20 coins per request, use comma to separate. BTC,USDC,USDT,SOL
+     * @return Response Parameters
+     * Parameter	Type	Comments
+     * availableWithdrawal	string	Transferable amount for the 1st coin in the request
+     * availableWithdrawalMap	Object	Transferable amount map for each requested coin. In the map, key is the requested coin, and value is the accordingly amount(string)
+     * e.g., "availableWithdrawalMap":{"BTC":"4.54549050","SOL":"33.16713007","XRP":"10805.54548970","ETH":"17.76451865"}
+     */
+    @Headers(BybitApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/account/withdrawal")
+    Call<Object> getTransferableAmount(@Query("coinName") String coinName);
+
     // Asset Endpoints
 
     /**

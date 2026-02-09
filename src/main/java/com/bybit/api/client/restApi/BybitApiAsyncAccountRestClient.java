@@ -21,4 +21,5 @@ public interface BybitApiAsyncAccountRestClient {
     void getAccountMMPState(AccountDataRequest request, BybitApiCallback<Object> callback);
     void getAccountSMPGroup(BybitApiCallback<Object> callback);
     void setAccountSpotHedging(AccountDataRequest request, BybitApiCallback<Object> callback);
+    void getTransferableAmount(AccountDataRequest request, BybitApiCallback<Object> callback);
 }

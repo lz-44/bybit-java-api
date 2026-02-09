@@ -34,5 +34,9 @@ public class AccountAsyncExample {
         // Set Account Margin Mode
         var setAccountMarginModeRequest = AccountDataRequest.builder().setMarginMode(MarginMode.CROSS_MARGIN).build();
         client.setAccountMarginMode(setAccountMarginModeRequest, System.out::println);
+
+        // Get Transferable Amount
+        var transferableAmountRequest = AccountDataRequest.builder().coin("USDT").build();
+        client.getTransferableAmount(transferableAmountRequest, System.out::println);
     }
 }

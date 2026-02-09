@@ -21,4 +21,5 @@ public interface BybitApiAccountRestClient {
     Object resetAccountMMP(AccountDataRequest request);
     Object getAccountMMPState(AccountDataRequest request);
     Object getAccountSMPGroup();
+    Object getTransferableAmount(AccountDataRequest request);
 }
